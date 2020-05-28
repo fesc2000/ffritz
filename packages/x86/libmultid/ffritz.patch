@@ -1,0 +1,66 @@
+--- src/libmultid.c	2020-05-14 09:18:46.875619605 +0200
++++ build-2020.02/libmultid.c	2020-05-28 20:35:26.296014316 +0200
+@@ -43,6 +43,10 @@
+ #endif
+ }
+ 
++static int _change_dns = 0;
++static int _change_dhcp = 0;
++static int _change_llmnr = 0;
++
+ static int (*real_bind)(int, const struct sockaddr *, socklen_t) = NULL;
+ 
+ static void _libmultid_init (void) __attribute__((constructor));
+@@ -71,7 +75,12 @@
+ 		fprintf(stderr, "[libmultid::_libmultid_init()] Unable to get bind-handle: %s\n", err);
+ 		exit(1);
+ 	}
+-	debug_printf("[libmultid::_libmultid_init()] successfully initialized\n");
++
++	_change_dns = (getenv("LMD_CHANGE_DNS") != NULL);
++	_change_dhcp = (getenv("LMD_CHANGE_DHCP") != NULL);
++	_change_llmnr = (getenv("LMD_CHANGE_LLMNR") != NULL);
++
++	debug_printf("[libmultid::_libmultid_init()] successfully initialized. dns=%d dhcp=%d llmnr=%d\n", _change_dns, _change_dhcp, _change_llmnr);
+ }
+ 
+ #ifdef D_LOCAL
+@@ -87,24 +96,27 @@
+ {
+ 	u_short port = ntohs (*pport);
+ 	switch (port) {
+-#if defined(D_DNS) || defined(D_DHCP) || defined(D_LLMNR)
+-#ifdef D_DNS
+ 	case 53:
+-#endif
+-#ifdef D_DHCP
++		if (_change_dns)
++			break;
++		return 0;
+ 	case 67:
+-#endif
+-#ifdef D_LLMNR
++		if (_change_dhcp)
++			break;
++		return 0;
+ 	case 5353:
+ 	case 5355:
+-#endif
+-		port += 50000;
+-		*pport = htons (port);
+-		return 1;
+-#endif
++		if (_change_llmnr)
++			break;
++		return 0;
++
+ 	default:
+ 		return 0;
+ 	}
++
++	port += 50000;
++	*pport = htons (port);
++	return 1;
+ }
+ 
+ int bind (int fd, const struct sockaddr *sk, socklen_t sl)

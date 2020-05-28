@@ -8,7 +8,7 @@
 # PKGNAME: Name of package   (default: dirname)
 # URL:     URL of download tar file (default: content of url-pkgname)
 # GIT:     URL of git repository (default: content of git-pkgname)
-#					 You might also want to specify the tag in COMMIT / commit-pkgname.
+#          You might also want to specify the tag in COMMIT / commit-pkgname.
 #
 # MAKE_OPTIONS: Options for make call
 # MAKE_SUBDIR:  Subdir in source tree to call make in (with / prefix)
@@ -50,6 +50,7 @@ COMMITFILE = $(PKGTOP)/commit-$(PKGNAME)
 GIT	= $(shell test -r $(GITFILE) && cat $(GITFILE))
 endif
 
+ifeq ($(SRCDIR),)
 ifneq ($(URL),)
 FILE	= $(DLDIR)/$(shell basename $(URL))
 else
@@ -63,6 +64,7 @@ endif
 endif
 else
 $(error No url/git file for $(PKGNAME))
+endif
 endif
 endif
 
@@ -126,7 +128,7 @@ MAKE_INSTALL_TGT = install
 endif
 
 
-_INST=$(shell echo "if [ -f $(1) ]; then install -vDC $(1) $(2)/`basename $(1)`; else mkdir -p $(2); cp -arv $(1) $(2); fi;")
+_INST=$(shell echo "if [ -d $(1) ]; then mkdir -p $(2); cp -arv $(1) $(2); else install -vDC $(1) $(2)/`basename $(1)`; fi;")
 
 
 #------------------------------------
@@ -143,6 +145,13 @@ $(REPO): $(wildcard $(GITFILE) $(COMMITFILE))
 	git clone --bare $(GIT) $(REPO)
 endif
 
+ifneq ($(SRCDIR),)
+$(BUILDDIR):	$(SRCDIR)
+	rm -rf $(BUILDDIR)
+	cp -ar $(SRCDIR) $(BUILDDIR)
+	cd $(BUILDDIR); for p in $(PATCHES); do echo Applying $$p ..; patch -p1 < ../$$p || exit 1; done
+	cd $(BUILDDIR); $(AUTORECONF)
+else
 ifneq ($(FILE),)
 $(BUILDDIR):	$(FILE) $(wildcard $(URLFILE) $(SHAFILE))
 	rm -rf $(BUILDDIR)
@@ -158,6 +167,7 @@ $(BUILDDIR):	$(REPO)
 	@cd $(BUILDDIR); git checkout $(COMMIT)
 	@cd $(BUILDDIR); for p in $(PATCHES); do echo Applying $$p ..; patch -p1 < ../$$p || exit 1; done
 	cd $(BUILDDIR); $(AUTORECONF)
+endif
 endif
 
 

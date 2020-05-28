@@ -207,5 +207,5 @@ Thanks to
 - flole for helping with gaining shell access to 6591
 - Themaister for libmaru [https://github.com/Themaister/libmaru]
 - Bluekitchen for the user space bluetooth stack [https://github.com/bluekitchen]
+- freetz project
 - AVM, after all
-

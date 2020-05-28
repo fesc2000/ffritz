@@ -36,6 +36,7 @@ mtab_ram()
 {
 	echo / REDIR $BR_ROOT
 	echo /dev devtmpfs
+	echo /dev/shm tmpfs
 	echo /etc NVRAM
 	echo /proc proc
 	echo /root NVRAM
@@ -51,6 +52,7 @@ mtab_flash()
 {
 	echo / COW $1
 	echo /dev devtmpfs
+	echo /dev/shm tmpfs
 	echo /proc proc
 	echo /run tmpfs
 	echo /sys sysfs
@@ -63,6 +65,7 @@ mtab_redir()
 {
 	echo / REDIR $1
 	echo /dev devtmpfs
+	echo /dev/shm tmpfs
 	echo /proc proc
 	echo /sys sysfs
 	echo /var/media/ftp REDIR /var/media/ftp
@@ -85,12 +88,14 @@ mtab()
 				echo Parent of user copy $BR_USER_COPY does not exist 1>&2
 				exit 1
 			fi
+			echo +++ Generating buildroot copy in $BR_USER_COPY ..
 			cp -a /usr/local/buildroot $BR_USER_COPY
 			if [ $? -ne 0 ]; then
 				rm -rf $BR_USER_COPY
 				echo Error bootstrapping to $BR_USER_COPY 1>&2
 				exit 1
 			fi
+			echo +++ done
 		fi
 		mtab_redir $BR_USER_COPY
 		exit 0
