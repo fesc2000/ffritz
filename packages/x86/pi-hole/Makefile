@@ -26,7 +26,7 @@
 all:
 
 install:
-	test -d $(DESTDIR)/buildroot
-	cp *.sh $(DESTDIR)/buildroot/bin
-	mkdir -p $(DESTDIR)/buildroot/share/pihole
-	cp pihole-template.tar.gz $(DESTDIR)/buildroot/share/pihole
+	mkdir -p $(DESTDIR)/bin 
+	mkdir -p $(DESTDIR)/share/pihole
+	cp *.sh $(DESTDIR)/bin
+	cp pihole-template.tar.gz $(DESTDIR)/share/pihole

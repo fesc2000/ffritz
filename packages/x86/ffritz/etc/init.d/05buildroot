@@ -88,14 +88,14 @@ mtab()
 				echo Parent of user copy $BR_USER_COPY does not exist 1>&2
 				exit 1
 			fi
-			echo +++ Generating buildroot copy in $BR_USER_COPY ..
+			echo +++ Generating buildroot copy in $BR_USER_COPY .. 1>&2
 			cp -a /usr/local/buildroot $BR_USER_COPY
 			if [ $? -ne 0 ]; then
 				rm -rf $BR_USER_COPY
 				echo Error bootstrapping to $BR_USER_COPY 1>&2
 				exit 1
 			fi
-			echo +++ done
+			echo +++ done 1>&2
 		fi
 		mtab_redir $BR_USER_COPY
 		exit 0
