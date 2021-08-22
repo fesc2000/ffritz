@@ -36,7 +36,7 @@ NOTE: This is the branch for FritzBox 6591. For 6490/6590 use the master
       branch of the repository (<https://bitbucket.org/fesc2000/ffritz/src/master/>).
 
 Have Fun,
-<f/e/s/c/2/0/0/0/@/g/m/a/i/l/./c/o/m>
+fesc (fesh at mailbox dot org)
 
 
 Creating an install/update firmware image
@@ -44,7 +44,7 @@ Creating an install/update firmware image
 
 - Clone repository (6591 branch):
 
-    `git clone --branch 6591 https://fesc2000@bitbucket.org/fesc2000/ffritz.git`
+    `git clone --branch 6591 https://bitbucket.org/fesc2000/ffritz.git`
 
 - Go to ffritz directory
 

@@ -4,11 +4,12 @@ url=$1
 fname=`readlink -f $2`
 shaf=$3
 
-if [ -d $fname ]; then
+if [ "$fname" != "" -a -d "$fname" ]; then
 	mkdir -p $fname || exit 1
 	fname=$fname/`basename $1`
 else
 	mkdir -p `dirname $2` || exit 1
+	fname=$2
 fi
 wget "$1" -O "$fname" || { rm -f $fname; exit 1; }
 touch "$fname"
