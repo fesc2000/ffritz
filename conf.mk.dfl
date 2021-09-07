@@ -14,7 +14,8 @@
 #URL=http://download.avm.de/firmware/6591/213215464/FRITZ.Box_6591_Cable-07.13.image
 #URL=https://download.avm.de/firmware/6591/7652164782/FRITZ.Box_6591_Cable-07.21.image
 #URL=https://download.avm.de/firmware/6591/8548751392/FRITZ.Box_6591_Cable-07.22.image
-URL=http://download.avm.de/fritzbox/fritzbox-6591-cable/deutschland/fritz.os/FRITZ.Box_6591_Cable-07.27.image
+#URL=http://download.avm.de/fritzbox/fritzbox-6591-cable/deutschland/fritz.os/FRITZ.Box_6591_Cable-07.27.image
+URL=http://download.avm.de/fritzbox/fritzbox-6591-cable/other/fritz.os/FRITZ.Box_6591_Cable-07.28.image
 
 # Last supported 6490 Image
 #URL=http://download.avm.de/firmware/6490/758467098/FRITZ.Box_6490_Cable-07.12.image
