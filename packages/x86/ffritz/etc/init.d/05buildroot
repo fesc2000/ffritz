@@ -37,6 +37,7 @@ mtab_ram()
 	echo / REDIR $BR_ROOT
 	echo /dev devtmpfs
 	echo /dev/shm tmpfs
+	echo /dev/pts devpts
 	echo /etc NVRAM
 	echo /proc proc
 	echo /root NVRAM
@@ -53,6 +54,7 @@ mtab_flash()
 	echo / COW $1
 	echo /dev devtmpfs
 	echo /dev/shm tmpfs
+	echo /dev/pts devpts
 	echo /proc proc
 	echo /run tmpfs
 	echo /sys sysfs
@@ -66,6 +68,7 @@ mtab_redir()
 	echo / REDIR $1
 	echo /dev devtmpfs
 	echo /dev/shm tmpfs
+	echo /dev/pts devpts
 	echo /proc proc
 	echo /sys sysfs
 	echo /var/media/ftp REDIR /var/media/ftp
