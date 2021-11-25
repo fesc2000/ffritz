@@ -115,9 +115,9 @@ Steps:
     If you have an existing update image you want to install, you can extract these bin
     files from it using the uimg tool. For example:
 
-        make -C src/uimg
+        make -C tools/uimg-tool
         tar xf FRITZ.Box_6591_Cable-07.19-80492-Labor.image ./var/firmware-update.uimg
-        src/uimg/uimg -u -n part ./var/firmware-update.uimg
+        tools/uimg-tool/uimg -u -n part ./var/firmware-update.uimg
 
 2.  Connect to the ftp client and query the current active partition (unless you already know it):
 
@@ -302,9 +302,9 @@ Steps:
 
 1.  Unpack the boot image  
 
-        make -C src/uimg
+        make -C tools/uimg-tool/uimg
         tar xf FRITZ.Box_6591_Cable-07.19-80492-Labor.image ./var/firmware-update.uimg
-        src/uimg/uimg -u -n part ./var/firmware-update.uimg
+        tools/uimg-tool/uimg -u -n part ./var/firmware-update.uimg
 
 2.  Mount the boot partition  
 
@@ -325,7 +325,7 @@ Steps:
 
 4.  Repack the image  
 
-        src/uimg/uimg -p -n part out.img
+        tools/uimg-tool/uimg -p -n part out.img
 
 5.  Program the image  
     You can either program the whole out.img from the shell, or only update 

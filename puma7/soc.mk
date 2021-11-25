@@ -1,12 +1,19 @@
-src/uimg/uimg:
-	@make -C src/uimg
+UIMG_DIR = $(REPODIR)/tools/uimg-tool
+UIMG     = $(UIMG_DIR)/uimg
+
+$(UIMG_DIR)/Makefile:
+	@git submodule init $(UIMG_DIR)
+	@git submodule update $(UIMG_DIR)
+
+$(UIMG):	$(UIMG_DIR)/Makefile
+	@make -C $(UIMG_DIR)
 
 # extrace uimg
 #
-$(PLAT_TMP)/uimage:	$(ORIG) src/uimg/uimg
+$(PLAT_TMP)/uimage:	$(ORIG) $(UIMG)
 	@mkdir -p $(PLAT_TMP)/uimage
 	@cd $(PLAT_TMP)/uimage; tar xf $(ORIG)
-	@cd $(PLAT_TMP)/uimage; $(REPODIR)/src/uimg/uimg -u -n part var/firmware-update.uimg
+	@cd $(PLAT_TMP)/uimage; $(UIMG) -u -n part var/firmware-update.uimg
 
 # re-pack uimg
 #
@@ -28,7 +35,7 @@ ifeq ($(ENABLE_CONSOLE),1)
 	@rm -f .startup.nsh
 endif
 	@echo "PACK   firmware-update.uimg"
-	@$(REPODIR)/src/uimg/uimg -p -n $(PLAT_TMP)/uimage/part $(PLAT_TMP)/var/firmware-update.uimg
+	@$(UIMG) -p -n $(PLAT_TMP)/uimage/part $(PLAT_TMP)/var/firmware-update.uimg
 	@echo "PACK   $(PLAT_TMP)/$(FWFILE)"
 	@cd $(PLAT_TMP); $(TAR) cf $(RELDIR)/$(FWFILE) var
 	@echo

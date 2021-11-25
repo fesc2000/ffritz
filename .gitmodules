@@ -1,0 +1,3 @@
+[submodule "tools/uimg-tool"]
+	path = tools/uimg-tool
+	url = git@bitbucket.org:fesc2000/uimg-tool.git
